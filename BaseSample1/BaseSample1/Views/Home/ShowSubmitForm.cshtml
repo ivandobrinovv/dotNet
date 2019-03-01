@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "ShowSubmitForm";
+}
+
+<h2>Show Submit Form</h2>
+
+@if(ViewBag.Message != "")
+{
+    @ViewBag.Message
+}
+
+<form action="/Home/SaveSubmitForm" method="post">
+    <input type="text" name="username" />
+    <input type="submit" value="Submit"/>
+</form>
+

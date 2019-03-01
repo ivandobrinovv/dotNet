@@ -1,0 +1,37 @@
+﻿@model BaseSample1.Models.User
+@{
+    ViewBag.Title = "Edit User";
+}
+
+<h2>Edit User</h2>
+
+@{ 
+    if (ViewBag.Message != null && ViewBag.Message != "")
+    {        
+        <b>@ViewBag.Message</b>
+    }
+}
+
+@using (Html.BeginForm("EditUser", "Home"))
+{
+    @:User: @Html.TextBoxFor(model => model.Username)<br />
+    @:Phone: @Html.TextBoxFor(model => model.Phonenumber)<br />
+    <input type="submit" value="Submit" />
+
+
+    @*@Html.TextBox("Username", @Model.Username)<br />
+    @Html.TextBox("Phonenumber", Model.Phonenumber)<br />
+    <input type="submit" value="Submit" />*@
+
+    @*@Html.EditorFor(model => model.Username)<br />
+    @Html.EditorFor(model => model.Phonenumber)<br />
+    <input type="submit" value="Submit" />*@
+
+}
+
+
+@*<form action="/Home/EditUser" method="post">
+        <input type="text" name="username"/>
+        <input type="text" name="phonenumber" />
+        <input type="submit" value="Submit" />
+</form>*@
