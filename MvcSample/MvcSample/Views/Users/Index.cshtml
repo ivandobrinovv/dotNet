@@ -1,0 +1,10 @@
+﻿@using MvcSample.Models
+
+    @foreach(User user in @Model)
+    {
+        <p>
+            <h2>Name: @user.Name</h2>
+            <h2>Surename: @user.Surename</h2>
+        </p>
+    }
+
