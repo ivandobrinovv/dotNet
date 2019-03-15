@@ -67,6 +67,7 @@ namespace SessionSample3.Controllers
             else
             {
                 user.ID = SessionObjects.Users.Select(u => u.ID).Max() + 1;
+                //user.ID = SessionObjects.Users.Last().ID + 1; //This shoud be a bit faster
             }
             SessionObjects.Users.Add(user);
 
