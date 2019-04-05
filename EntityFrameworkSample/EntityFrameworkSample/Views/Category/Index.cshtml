@@ -1,0 +1,30 @@
+﻿@model EntityFrameworkSample.Models.Categories.CategoryListVM
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>Categories</th>
+    </tr>
+
+@foreach (var item in Model.Categories) {
+    <tr>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CategoryID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
+        </td>
+    </tr>
+}
+
+</table>
