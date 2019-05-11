@@ -12,9 +12,8 @@ namespace Restaurants.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Restaurant
+    public partial class Restaurant : BaseEntity
     {
-        public int RestaurantID { get; set; }
         public string Name { get; set; }
         public int CityID { get; set; }
         public int CategoryID { get; set; }

@@ -4,46 +4,36 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RestaurantsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RestaurantsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
-            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Cities">
           <Key>
-            <PropertyRef Name="CityID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Restaurants">
           <Key>
-            <PropertyRef Name="RestaurantID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="RestaurantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CityID" Type="int" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Restaurants_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="Restaurants" Type="Self.Restaurants" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
-              <PropertyRef Name="CategoryID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Restaurants">
               <PropertyRef Name="CategoryID" />
@@ -55,7 +45,7 @@
           <End Role="Restaurants" Type="Self.Restaurants" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cities">
-              <PropertyRef Name="CityID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Restaurants">
               <PropertyRef Name="CityID" />
@@ -66,7 +56,6 @@
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Restaurants" EntityType="Self.Restaurants" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Restaurants_Categories" Association="Self.FK_Restaurants_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Restaurants" EntitySet="Restaurants" />
@@ -76,86 +65,74 @@
             <End Role="Restaurants" EntitySet="Restaurants" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RestaurantsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RestaurantsDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="RestaurantsDBModel.Category" />
+          <EntitySet Name="Cities" EntityType="RestaurantsDBModel.City" />
+          <EntitySet Name="Restaurants" EntityType="RestaurantsDBModel.Restaurant" />
+          <AssociationSet Name="FK_Restaurants_Categories" Association="RestaurantsDBModel.FK_Restaurants_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Restaurant" EntitySet="Restaurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Restaurants_Cities" Association="RestaurantsDBModel.FK_Restaurants_Cities">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Restaurant" EntitySet="Restaurants" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Category">
           <Key>
-            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Restaurants" Relationship="Self.FK_Restaurants_Categories" FromRole="Categories" ToRole="Restaurants" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Restaurants" Relationship="RestaurantsDBModel.FK_Restaurants_Categories" FromRole="Category" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="City">
           <Key>
-            <PropertyRef Name="CityID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Restaurants" Relationship="Self.FK_Restaurants_Cities" FromRole="Cities" ToRole="Restaurants" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Restaurants" Relationship="RestaurantsDBModel.FK_Restaurants_Cities" FromRole="City" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="Restaurant">
           <Key>
-            <PropertyRef Name="RestaurantID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="RestaurantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CityID" Type="Int32" Nullable="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_Restaurants_Categories" FromRole="Restaurants" ToRole="Categories" />
-          <NavigationProperty Name="City" Relationship="Self.FK_Restaurants_Cities" FromRole="Restaurants" ToRole="Cities" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Category" Relationship="RestaurantsDBModel.FK_Restaurants_Categories" FromRole="Restaurant" ToRole="Category" />
+          <NavigationProperty Name="City" Relationship="RestaurantsDBModel.FK_Restaurants_Cities" FromRole="Restaurant" ToRole="City" />
         </EntityType>
         <Association Name="FK_Restaurants_Categories">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
-          <End Role="Restaurants" Type="Self.Restaurant" Multiplicity="*" />
+          <End Type="RestaurantsDBModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="RestaurantsDBModel.Restaurant" Role="Restaurant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="CategoryID" />
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Restaurants">
+            <Dependent Role="Restaurant">
               <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Restaurants_Cities">
-          <End Role="Cities" Type="Self.City" Multiplicity="1" />
-          <End Role="Restaurants" Type="Self.Restaurant" Multiplicity="*" />
+          <End Type="RestaurantsDBModel.City" Role="City" Multiplicity="1" />
+          <End Type="RestaurantsDBModel.Restaurant" Role="Restaurant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cities">
-              <PropertyRef Name="CityID" />
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Restaurants">
+            <Dependent Role="Restaurant">
               <PropertyRef Name="CityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="RestaurantsDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Cities" EntityType="Self.City" />
-          <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK_Restaurants_Categories" Association="Self.FK_Restaurants_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Restaurants" EntitySet="Restaurants" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Restaurants_Cities" Association="Self.FK_Restaurants_Cities">
-            <End Role="Cities" EntitySet="Cities" />
-            <End Role="Restaurants" EntitySet="Restaurants" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -165,37 +142,26 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="RestaurantsDBModel.Category">
               <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cities">
             <EntityTypeMapping TypeName="RestaurantsDBModel.City">
               <MappingFragment StoreEntitySet="Cities">
-                <ScalarProperty Name="CityID" ColumnName="CityID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Restaurants">
             <EntityTypeMapping TypeName="RestaurantsDBModel.Restaurant">
               <MappingFragment StoreEntitySet="Restaurants">
-                <ScalarProperty Name="RestaurantID" ColumnName="RestaurantID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CityID" ColumnName="CityID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="RestaurantsDBModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

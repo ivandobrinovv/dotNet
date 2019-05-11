@@ -12,7 +12,7 @@ namespace Restaurants.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class Category : BaseEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
@@ -20,7 +20,6 @@ namespace Restaurants.DataAccess
             this.Restaurants = new HashSet<Restaurant>();
         }
     
-        public int CategoryID { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
